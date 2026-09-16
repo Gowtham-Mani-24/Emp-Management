@@ -38,3 +38,64 @@ export const createEmployee = (req,res)=>{
 
     res.status(201).json(newEmployee);
 };
+
+export const getEmployeeById =(req,res)=>{
+    console.log('req.parmas',req.params);
+    const id = parseInt(req.params.id);
+
+    const employee = employees.find(
+        ele => ele.id === id
+    );
+
+    if(!employee){
+        return res.status(404).json({
+            message:"Employee not found"
+        })
+    }
+
+    res.status(200).json(employee);
+}
+
+export const updateEmployeeById =(req,res)=>{
+    const id = parseInt(req.params.id);
+
+    const employee = employees.find(
+        ele=> ele.id === id
+    )
+    if (!employee) {
+        return res.status(404).json({
+            message: "Employee not found"
+        })
+    }
+    
+    const {name,role,salary} =req.body;
+
+    employee.name = name;
+    employee.role = role;
+    employee.salary = salary;
+
+    res.status(200).json(employee);
+}
+
+
+export const deleteById = (req,res)=>{
+    const id = parseInt(req.params.id);
+
+    const employeeIndex = employees.findIndex(
+        ele=> ele.id === id
+    )
+
+    if (employeeIndex === -1) {
+        return res.status(404).json({
+            message: "Employee not found"
+        });
+    }
+
+
+    const deletedEmployee = employees.splice(employeeIndex,1);
+
+   res.status(200).json({
+        message: "Employee deleted successfully",
+        employee: deletedEmployee[0]
+    });
+}
