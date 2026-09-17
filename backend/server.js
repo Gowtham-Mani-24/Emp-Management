@@ -1,9 +1,15 @@
 import express from 'express';
+import dotenv from 'dotenv';
 import employeeRoutes from './routes/employeeRoutes.js';
+import { connectDB } from './config/db.js';
+
+dotenv.config();
+
+connectDB();
 
 const app = express();
 
-const PORT=5000;
+const PORT=process.env.PORT || 5000;
 
 //middlewre
 app.use(express.json());
