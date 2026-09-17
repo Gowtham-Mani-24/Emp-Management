@@ -1,19 +1,16 @@
 import { Employee } from "../models/Employee.js";
 
-export const getEmployees = async (req, res) => {
+export const getEmployees = async (req, res, next) => {
     try {
         const employees = await Employee.find();
         res.status(200).json(employees);
     } catch (error) {
-        res.status(500).json({
-            message: "Failed to fetch Employees",
-            error: error.message
-        })
+        next(error);
     }
 
 };
 
-export const createEmployee = async (req, res) => {
+export const createEmployee = async (req, res,next) => {
     try {
         const { name, role, salary } = req.body;
 
@@ -25,14 +22,11 @@ export const createEmployee = async (req, res) => {
         res.status(201).json(employee);
 
     } catch (error) {
-        res.status(500).json({
-            message: "Failed to create employee",
-            error: error.message
-        })
+        next(error);
     }
 };
 
-export const getEmployeeById = async (req, res) => {
+export const getEmployeeById = async (req, res, next) => {
 
     try {
         const employee = await Employee.findById(req.params.id);
@@ -45,14 +39,11 @@ export const getEmployeeById = async (req, res) => {
         res.status(200).json(employee);
 
     } catch (error) {
-        res.status(500).json({
-            message: "Failed to fetch employee",
-            error: error.message
-        });
+        next(error);
     }
 }
 
-export const updateEmployeeById = async (req, res) => {
+export const updateEmployeeById = async (req, res, next) => {
 
     try {
         const employee = await Employee.findByIdAndUpdate(
@@ -73,17 +64,13 @@ export const updateEmployeeById = async (req, res) => {
     res.status(200).json(employee);
 
     } catch (error) {
-        res.status(500).json({
-            message: "Failed to update employee",
-            error: error.message
-        });
-
+       next(error);
     }
     
 }
 
 
-export const deleteById = async (req, res) => {
+export const deleteById = async (req, res, next) => {
     try {
         const employee = await Employee.findByIdAndDelete(
             req.params.id
@@ -99,10 +86,7 @@ export const deleteById = async (req, res) => {
             message: "Employee deleted successfully"
         });
     } catch (error) {
-        res.status(500).json({
-            message: "Failed to delete employee",
-            error: error.message
-        });
+        next(error);
     }
     
 }
