@@ -85,7 +85,7 @@ export const updateEmployeeById = async (req, res) => {
 
 export const deleteById = async (req, res) => {
     try {
-        const employee = await Employee.findByIdAndUpdate(
+        const employee = await Employee.findByIdAndDelete(
             req.params.id
         );
 
