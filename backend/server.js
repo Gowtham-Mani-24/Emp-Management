@@ -5,6 +5,7 @@ import { connectDB } from './config/db.js';
 import { loggerMiddleware } from './middleware/loggerMiddleware.js';
 import { errorMiddleware } from './middleware/errorMiddleware.js';
 import { notFoundMiddleware } from './middleware/notFoundMiddleware.js';
+import authRoutes from './routes/authRoutes.js';
 import cors from 'cors';
 dotenv.config();
 
@@ -28,6 +29,8 @@ app.use('/api/employees',employeeRoutes);
 app.get('/',(req,res)=>{
     res.send('Employee Management Api is running');
 })
+
+app.use('/api/auth', authRoutes);
 
 app.use(notFoundMiddleware);
 
