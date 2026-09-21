@@ -5,7 +5,7 @@ import { connectDB } from './config/db.js';
 import { loggerMiddleware } from './middleware/loggerMiddleware.js';
 import { errorMiddleware } from './middleware/errorMiddleware.js';
 import { notFoundMiddleware } from './middleware/notFoundMiddleware.js';
-
+import cors from 'cors';
 dotenv.config();
 
 connectDB();
@@ -15,8 +15,11 @@ const app = express();
 const PORT=process.env.PORT || 5000;
 
 //middlewre
+
 app.use(express.json());
+app.use(cors());
 app.use(loggerMiddleware);
+
 
 
 //routes
