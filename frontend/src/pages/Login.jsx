@@ -1,10 +1,14 @@
 import { useState } from "react"
 import { useNavigate } from "react-router-dom";
 import { loginUser } from "../api/authApi";
+import { useAuth } from "../context/AuthContext";
 
 export const Login = ()=>{
 
     const navigate = useNavigate();
+
+    const {login} = useAuth();
+
     const [formData,setFormData] = useState({
         email:"",
         password:""
@@ -26,8 +30,10 @@ export const Login = ()=>{
             setLoading(true);
         try {
             const data = await loginUser(formData);
-            localStorage.setItem('token',data.token);
-            localStorage.setItem('user',JSON.stringify(data.user));
+            login(
+                data.user,
+                data.token
+            );
             
             navigate('/dashboard');
         } catch (error) {
@@ -52,7 +58,7 @@ export const Login = ()=>{
                     <input 
                     type="email"
                     name="email"
-                    value={formData.value}
+                    value={formData.email}
                     onChange={handleChange}
                     required
                     />
@@ -63,7 +69,7 @@ export const Login = ()=>{
                     <input 
                     type="password"
                     name="password"
-                    value={formData.value}
+                    value={formData.password}
                     onChange={handleChange}
                     required
                     />

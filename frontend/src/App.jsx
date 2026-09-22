@@ -1,22 +1,44 @@
-import {BrowserRouter, Route, Routes} from 'react-router-dom'
+import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import { Login } from './pages/Login'
 import Register from './pages/Register'
 import { Dashboard } from './pages/Dashboard'
 import { AddEmployee } from './pages/AddEmployee'
 import { EditEmployee } from './pages/EditEmployee'
+import { ProtectedRoute } from './components/ProtectedRoute'
 
 function App() {
-  
+
 
   return (
     <BrowserRouter>
-    <Routes>
-      <Route path='/login' element={<Login />}/>
-      <Route path='/register' element={<Register />}/>
-      <Route path='/dashboard' element={<Dashboard />}/>
-      <Route path='/employees/add' element={<AddEmployee />}/>
-      <Route path='/employees/edit/:id' element={<EditEmployee />} />
-    </Routes>
+      <Routes>
+        <Route
+          path="/"
+          element={
+            <Navigate
+              to="/login"
+              replace
+            />
+          }
+        />
+        <Route path='/login' element={<Login />} />
+        <Route path='/register' element={<Register />} />
+        <Route path='/dashboard' element={
+          <ProtectedRoute>
+            <Dashboard />
+          </ProtectedRoute>
+        } />
+        <Route path='/employees/add' element={
+          <ProtectedRoute>
+            <AddEmployee />
+          </ProtectedRoute>
+        } />
+        <Route path='/employees/edit/:id' element={
+          <ProtectedRoute>
+            <EditEmployee />
+          </ProtectedRoute>
+        } />
+      </Routes>
     </BrowserRouter>
   )
 }
