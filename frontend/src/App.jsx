@@ -6,6 +6,7 @@ import { AddEmployee } from './pages/AddEmployee'
 import { EditEmployee } from './pages/EditEmployee'
 import { ProtectedRoute } from './components/ProtectedRoute'
 import { Navbar } from './components/Navbar'
+import { NotFound } from './pages/NotFound'
 
 function App() {
 
@@ -40,6 +41,10 @@ function App() {
             <EditEmployee />
           </ProtectedRoute>
         } />
+        <Route 
+          path='*'
+          element={<NotFound />}
+        />
       </Routes>
     </BrowserRouter>
   )
