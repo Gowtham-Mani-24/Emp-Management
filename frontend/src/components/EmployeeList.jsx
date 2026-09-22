@@ -8,6 +8,7 @@ export const EmployeeList = () => {
     const [employees, setEmployees] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState('');
+    const [searchTerm,setSearchTerm] = useState('');
 
     useEffect(() => {
         fetchEmployees();
@@ -27,6 +28,13 @@ export const EmployeeList = () => {
         }
     }
 
+    const fiteredEmployees = employees.filter((ele)=>{
+        return (
+            ele.name.toLowerCase().includes(searchTerm.toLowerCase())||
+            ele.role.toLowerCase().includes(searchTerm.toLowerCase())
+        );
+    })
+
     const handleDelete = async (id)=>{
         const confirmDelete = window.confirm("Are you sure to delete this employee???...");
         if(!confirmDelete){
@@ -34,7 +42,11 @@ export const EmployeeList = () => {
         }
         try {
             await deleteEmployee(id);
-            setEmployees(employees.filter((ele)=>ele._id !== id));
+            // setEmployees(employees.filter((ele)=>ele._id !== id));
+            setEmployees((previousEmployees)=>
+            previousEmployees.filter(
+                (ele)=> ele._id !== id
+            ))
         } catch (error) {
             
         }
@@ -55,6 +67,14 @@ export const EmployeeList = () => {
             <div>
                 <h2>Employee List</h2>
                 <Link to='/employees/add'>Add Employee</Link>
+                <br />
+                <br />
+                <input 
+                    type="text"
+                    placeholder="Search...."
+                    value={searchTerm}
+                    onChange={(e)=> setSearchTerm(e.target.value)}
+                />
                 <table border='1' cellPadding='10'>
                     <thead>
                         <tr>
@@ -65,14 +85,14 @@ export const EmployeeList = () => {
                         </tr>
                     </thead>
                     <tbody>
-                        {employees.length ===0 ?(
+                        {fiteredEmployees.length ===0 ?(
                             <tr>
                                 <td colSpan="4">
                                     No emplyees Found
                                 </td>
                             </tr>
                         ):(
-                            employees.map((ele) => (
+                            fiteredEmployees.map((ele) => (
                             <tr key={ele._id}>
                                 <td>{ele.name}</td>
                                 <td>{ele.role}</td>
