@@ -1,7 +1,6 @@
-import apiClient from 'apiClient';
 import apiClient from './apiClient.js';
 
-const API_URL = 'http://localhost:5000/api/employees';
+// const API_URL = 'http://localhost:5000/api/employees';
 
 export const getEmployees = async ()=>{
     const response = await apiClient.get('/employees');

@@ -1,16 +1,18 @@
-import { BrowserRouter, Route, Routes } from 'react-router-dom'
+import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom'
 import { Login } from './pages/Login'
 import Register from './pages/Register'
 import { Dashboard } from './pages/Dashboard'
 import { AddEmployee } from './pages/AddEmployee'
 import { EditEmployee } from './pages/EditEmployee'
 import { ProtectedRoute } from './components/ProtectedRoute'
+import { Navbar } from './components/Navbar'
 
 function App() {
 
 
   return (
     <BrowserRouter>
+    <Navbar />
       <Routes>
         <Route
           path="/"

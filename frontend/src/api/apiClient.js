@@ -1,6 +1,6 @@
 import axios from "axios";
 
-export const apiClient = axios.create({
+ const apiClient = axios.create({
     baseURL: 'http://localhost:5000/api'
 });
 
@@ -16,3 +16,17 @@ apiClient.interceptors.request.use(
         return Promise.reject(error);
     }
 );
+
+apiClient.interceptors.response.use(
+    (response)=> response,
+    (error)=>{
+        if(error.response?.this.status === 401){
+            localStorage.removeItem('token');
+            localStorage.removeItem('user');
+            window.location.href = '/login';
+        }
+        return Promise.reject(error);
+    }
+)
+
+export default apiClient;
